@@ -5,9 +5,11 @@ services:
     build: .
     ports:
       - '3000:3000'
+    user: ${CURRENT_UID:?"Please run as follows 'CURRENT_UID=$(id -u):$(id -g) docker-compose up'"}
     volumes:
       - ./:/app
     command: >
         sh -c "yarn install
+        && ln -sf ./node_modules/@nestjs/cli/bin/nest.js nest
         && yarn build
         && yarn start"
