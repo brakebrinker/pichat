@@ -10,6 +10,17 @@ Run docker command
 $ CURRENT_UID=$(id -u):$(id -g) docker-compose -f docker-compose.dev.yml up -d
 ```
 
+## Enter into the docker container
+```bash
+$ docker exec -it pichat_backend_1 sh
+```
+
+## Use Nest CLI in docker container
+### As example, creating a new module
+```sh
+$ ./nest g module test 
+```
+
 ## Running the app
 
 ```bash
