@@ -48,22 +48,22 @@ $ yarn run test:cov
 ```
 
 ## Migrations
-Generate migration
 ```bash
-$ yarn run generate-migrations migration-name
+# Generate migration
+$ yarn run generate-migration migration-name
 ```
 
-Create migration
 ```bash
+# Create migration
 $ yarn run create-migration new-migration-name
 ```
 
-Run migrations
 ```bash
+# Run migrations
 $ yarn run run-migrations
 ```
 
-Revert migration
 ```bash
+# Revert migrations
 $ yarn run revert-migrations
 ```
