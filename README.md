@@ -46,3 +46,24 @@ $ yarn run test:e2e
 # test coverage
 $ yarn run test:cov
 ```
+
+## Migrations
+Generate migration
+```bash
+$ yarn run generate-migrations migration-name
+```
+
+Create migration
+```bash
+$ yarn run create-migration new-migration-name
+```
+
+Run migrations
+```bash
+$ yarn run run-migrations
+```
+
+Revert migration
+```bash
+$ yarn run revert-migrations
+```

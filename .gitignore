@@ -35,3 +35,9 @@ lerna-debug.log*
 
 # custom generated files
 nest
+
+# ENV file
+/.env
+/.env.*
+!/.env.dist
+!/.env.*.dist

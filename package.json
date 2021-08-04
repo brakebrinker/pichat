@@ -15,6 +15,10 @@
     "start:prod": "node dist/main",
     "typeorm": "node --stack-trace-limit=100 --stack-size=1024 -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "typeorm:prod": "node --enable-source-maps --stack-trace-limit=100 --stack-size=1024 -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "create-migration": "yarn run typeorm:prod migration:create --config ./src/config/typeorm.config.ts -n ",
+    "run-migrations": "yarn run typeorm migration:run --config ./src/config/typeorm.config.ts",
+    "revert-migrations": "yarn run typeorm migration:revert --config ./src/config/typeorm.config.ts",
+    "generate-migration": "yarn run typeorm:prod migration:generate --config ./src/config/typeorm.config.ts -n ",
     "lint": "eslint ./",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -24,6 +28,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
+    "@nestjs/config": "^1.0.1",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.1",
