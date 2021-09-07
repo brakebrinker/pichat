@@ -7,7 +7,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserModule } from './user/user.module';
 import { ConnectionOptions } from "typeorm";
 import { ENTITIES } from "./entities";
-import { REPOSITORIES } from "./repositories";
 import AppConfig from './config/app.config';
 import { ConfigModule, ConfigService } from "@nestjs/config";
 
@@ -26,8 +25,8 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
       inject: [ConfigService]
     }),
     TypeOrmModule.forFeature([...ENTITIES]),
-    AuthModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

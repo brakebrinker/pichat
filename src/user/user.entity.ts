@@ -1,6 +1,7 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity()
+@Unique(['nickname'])
 export class User {
   @PrimaryGeneratedColumn('uuid')
   readonly id: string;
@@ -8,7 +9,7 @@ export class User {
   @Column('varchar', { length: 50 })
   readonly nickname: string;
 
-  @Column('boolean')
+  @Column('boolean', { default: true })
   readonly isOnline: boolean;
 
   constructor(
