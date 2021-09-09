@@ -11,7 +11,9 @@ export class AuthService {
   async login(userDto: CreateUserDto): Promise<User> {
     const user = await this.userService.findByNickname(userDto.nickname);
 
-    if (user === undefined) {
+    userDto.isOnline = true;
+
+    if (undefined === user) {
       return this.userService.create(userDto);
     }
 

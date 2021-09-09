@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -22,10 +22,19 @@ export class RoomService {
   ) {}
 
   async create(dto: CreateRoomDto): Promise<Room> {
+    const room = await this.findByName(dto.name);
+
+    if (undefined !== room) {
+      throw new HttpException(
+        'The room name already in use.',
+        HttpStatus.CONFLICT,
+      );
+    }
+
     const creator = await this.userService.findByNickname(dto.creator);
 
-    if (creator === undefined) {
-      throw new Error('Creator can not be found');
+    if (undefined === creator) {
+      throw new HttpException('Creator can not be found', HttpStatus.NOT_FOUND);
     }
 
     return this.roomRepository.save(<CreateRoomArgs>{
@@ -34,13 +43,21 @@ export class RoomService {
     });
   }
 
+  async findByName(name: string): Promise<Room | undefined> {
+    return this.roomRepository.findOne({ name });
+  }
+
   async getListOfRooms(): Promise<Room[]> {
     return this.roomRepository.find();
   }
 
-  async getByUserId(userId: string): Promise<Room> {
-    return this.roomRepository.findOneOrFail({
-      where: { creatorId: userId },
-    });
+  async getById(roomId: string): Promise<Room | undefined> {
+    const room = this.roomRepository.findOne(roomId);
+
+    if (undefined === room) {
+      throw new HttpException('Room can not be found', HttpStatus.NOT_FOUND);
+    }
+
+    return room;
   }
 }

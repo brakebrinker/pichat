@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -13,6 +13,15 @@ export class UserService {
   ) {}
 
   async create(dto: CreateUserDto): Promise<User> {
+    const user = await this.findByNickname(dto.nickname);
+
+    if (undefined !== user) {
+      throw new HttpException(
+        'This nickname already in use.',
+        HttpStatus.CONFLICT,
+      );
+    }
+
     return this.userRepository.save(dto);
   }
 

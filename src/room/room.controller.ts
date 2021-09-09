@@ -18,8 +18,8 @@ export class RoomController {
     return this.roomService.getListOfRooms();
   }
 
-  @Get('byUser/:userId')
-  async getByUser(@Param('userId') userId: string): Promise<Room> {
-    return this.roomService.getByUserId(userId);
+  @Get(':roomId')
+  async getRoom(@Param('roomId') roomId: string): Promise<Room | undefined> {
+    return this.roomService.getById(roomId);
   }
 }

@@ -1,10 +1,10 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class createUserAndRoomTables1631161452635 implements MigrationInterface {
-    name = 'createUserAndRoomTables1631161452635'
+export class createUserAndRoomTables1631210183493 implements MigrationInterface {
+    name = 'createUserAndRoomTables1631210183493'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query("CREATE TABLE `pichat`.`user` (`id` char(36) NOT NULL, `nickname` varchar(50) NOT NULL, `isOnline` tinyint NOT NULL DEFAULT 1, UNIQUE INDEX `IDX_e2364281027b926b879fa2fa1e` (`nickname`), PRIMARY KEY (`id`)) ENGINE=InnoDB");
+        await queryRunner.query("CREATE TABLE `pichat`.`user` (`id` char(36) NOT NULL, `nickname` varchar(50) NOT NULL, `isOnline` tinyint NOT NULL, UNIQUE INDEX `IDX_e2364281027b926b879fa2fa1e` (`nickname`), PRIMARY KEY (`id`)) ENGINE=InnoDB");
         await queryRunner.query("CREATE TABLE `pichat`.`room` (`id` char(36) NOT NULL, `name` varchar(50) NOT NULL, `creatorId` char(36) NULL, UNIQUE INDEX `IDX_535c742a3606d2e3122f441b26` (`name`), PRIMARY KEY (`id`)) ENGINE=InnoDB");
         await queryRunner.query("CREATE TABLE `pichat`.`user_rooms_room` (`userId` char(36) NOT NULL, `roomId` char(36) NOT NULL, INDEX `IDX_4031804b462cdb23799d73073c` (`userId`), INDEX `IDX_26f04118a1ad0bd2175fcf44e6` (`roomId`), PRIMARY KEY (`userId`, `roomId`)) ENGINE=InnoDB");
         await queryRunner.query("ALTER TABLE `pichat`.`room` ADD CONSTRAINT `FK_86e40e0afb08286884be0e6f38b` FOREIGN KEY (`creatorId`) REFERENCES `pichat`.`user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION");

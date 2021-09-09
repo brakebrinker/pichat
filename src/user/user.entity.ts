@@ -21,7 +21,7 @@ export class User {
   @Column('varchar', { length: 50 })
   readonly nickname: string;
 
-  @Column('boolean', { default: true })
+  @Column('boolean')
   readonly isOnline: boolean;
 
   @OneToMany(
