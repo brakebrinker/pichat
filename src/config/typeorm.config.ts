@@ -1,6 +1,7 @@
-import DbConfig from './database.config';
 import * as dotenv from 'dotenv';
-import { ConnectionOptions } from "typeorm";
+import { ConnectionOptions } from 'typeorm';
+
+import DbConfig from './database.config';
 
 dotenv.config();
 
