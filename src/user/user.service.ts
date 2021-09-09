@@ -29,6 +29,14 @@ export class UserService {
     return this.userRepository.findOne({ nickname });
   }
 
+  async getListByRoomId(roomId: string): Promise<User[]> {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.rooms', 'room')
+      .where('room.id = :roomId', { roomId })
+      .getMany();
+  }
+
   findAll(): Promise<User[]> {
     return this.userRepository.find();
   }

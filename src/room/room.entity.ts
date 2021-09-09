@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  ManyToMany,
   ManyToOne,
   ObjectType,
   PrimaryGeneratedColumn,
@@ -24,6 +25,12 @@ export class Room {
     (user: User): Promise<Room[]> | Room[] => user.ownRooms,
   )
   readonly creator: Promise<User> | User;
+
+  @ManyToMany(
+    (): ObjectType<User> => User,
+    (user: User): Promise<Room[]> | Room[] => user.rooms,
+  )
+  readonly users: Promise<User[]> | User[];
 
   constructor(id: string, name: string, creator: User) {
     this.id = id;

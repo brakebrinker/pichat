@@ -52,7 +52,7 @@ export class RoomService {
   }
 
   async getById(roomId: string): Promise<Room | undefined> {
-    const room = this.roomRepository.findOne(roomId);
+    const room = await this.roomRepository.findOne(roomId);
 
     if (undefined === room) {
       throw new HttpException('Room can not be found', HttpStatus.NOT_FOUND);
