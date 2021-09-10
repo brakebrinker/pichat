@@ -13,7 +13,7 @@ export class UserController {
     return this.userService.create(dto);
   }
 
-  @Get('users/roomid/:roomId')
+  @Get('users/roomId/:roomId')
   async usersByRoom(@Param('roomId') roomId: string): Promise<User[]> {
     return this.userService.getListByRoomId(roomId);
   }

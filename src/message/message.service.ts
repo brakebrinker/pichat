@@ -26,4 +26,24 @@ export class MessageService {
 
     return this.messageRepository.save(message);
   }
+
+  async getListByRoomIdForDays(
+    roomId: string,
+    days: string,
+  ): Promise<Message[]> {
+    const currentDate = new Date();
+    const fromDate = new Date(currentDate);
+
+    fromDate.setDate(currentDate.getDate() - parseInt(days, 10));
+
+    return this.messageRepository
+      .createQueryBuilder('message')
+      .leftJoinAndSelect('message.room', 'room')
+      .where('room.id = :roomId', { roomId })
+      .andWhere(
+        'message.createdAt >= :fromDate and message.createdAt <= :currentDate',
+        { fromDate, currentDate },
+      )
+      .getMany();
+  }
 }
