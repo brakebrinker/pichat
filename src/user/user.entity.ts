@@ -11,6 +11,8 @@ import {
 
 // eslint-disable-next-line import/no-cycle
 import { Room } from '../room/room.entity';
+// eslint-disable-next-line import/no-cycle
+import { Message } from '../message/message.entity';
 
 @Entity()
 @Unique(['nickname'])
@@ -38,6 +40,13 @@ export class User {
   })
   @JoinTable()
   readonly rooms: Promise<Room[]> | Room[];
+
+  @OneToMany(
+    (): ObjectType<Message> => Message,
+    (message: Message): Promise<User> | User => message.creator,
+    { cascade: true },
+  )
+  readonly messages: Promise<Message[]> | Message[];
 
   constructor(id: string, nickname: string, isOnline: boolean) {
     this.id = id;

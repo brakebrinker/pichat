@@ -51,13 +51,7 @@ export class RoomService {
     return this.roomRepository.find();
   }
 
-  async getById(roomId: string): Promise<Room | undefined> {
-    const room = await this.roomRepository.findOne(roomId);
-
-    if (undefined === room) {
-      throw new HttpException('Room can not be found', HttpStatus.NOT_FOUND);
-    }
-
-    return room;
+  async getById(id: string): Promise<Room> {
+    return this.roomRepository.findOneOrFail(id);
   }
 }

@@ -41,8 +41,8 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  findOne(id: string): Promise<User | undefined> {
-    return this.userRepository.findOne(id);
+  async getById(id: string): Promise<User> {
+    return this.userRepository.findOneOrFail(id);
   }
 
   async remove(id: string): Promise<void> {

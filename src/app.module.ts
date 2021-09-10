@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { ENTITIES } from './entities';
 import AppConfig from './config/app.config';
 import { RoomModule } from './room/room.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { RoomModule } from './room/room.module';
     UserModule,
     AuthModule,
     RoomModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

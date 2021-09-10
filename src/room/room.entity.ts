@@ -4,12 +4,15 @@ import {
   ManyToMany,
   ManyToOne,
   ObjectType,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
 
 // eslint-disable-next-line import/no-cycle
 import { User } from '../user/user.entity';
+// eslint-disable-next-line import/no-cycle
+import { Message } from '../message/message.entity';
 
 @Entity()
 @Unique(['name'])
@@ -31,6 +34,12 @@ export class Room {
     (user: User): Promise<Room[]> | Room[] => user.rooms,
   )
   readonly users: Promise<User[]> | User[];
+
+  @OneToMany(
+    (): ObjectType<Message> => Message,
+    (message: Message): Promise<Room> | Room => message.room,
+  )
+  readonly messages: Promise<Message[]> | Message[];
 
   constructor(id: string, name: string, creator: User) {
     this.id = id;
