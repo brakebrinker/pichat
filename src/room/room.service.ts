@@ -3,15 +3,10 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { UserService } from '../user/user.service';
-import { User } from '../user/user.entity';
 
 import { CreateRoomDto } from './dto/create-room.dto';
 import { Room } from './room.entity';
-
-type CreateRoomArgs = {
-  name: string;
-  creator: Promise<User> | User;
-};
+import { RoomDto } from './dto/room.dto';
 
 @Injectable()
 export class RoomService {
@@ -37,10 +32,7 @@ export class RoomService {
       throw new HttpException('Creator can not be found', HttpStatus.NOT_FOUND);
     }
 
-    return this.roomRepository.save(<CreateRoomArgs>{
-      name: dto.name,
-      creator,
-    });
+    return this.roomRepository.save(new RoomDto(dto.name, creator));
   }
 
   async findByName(name: string): Promise<Room | undefined> {
