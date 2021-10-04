@@ -33,7 +33,7 @@ export class Room {
     (): ObjectType<User> => User,
     (user: User): Promise<Room[]> | Room[] => user.rooms,
   )
-  readonly users: Promise<User[]> | User[];
+  users: Promise<User[]> | User[];
 
   @OneToMany(
     (): ObjectType<Message> => Message,
