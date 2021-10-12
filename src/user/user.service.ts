@@ -33,7 +33,20 @@ export class UserService {
     return this.userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.rooms', 'room')
-      .where('room.id = :roomId', { roomId })
+      .andWhere('room.id = :roomId', { roomId })
+      .getMany();
+  }
+
+  async getOnlineListByRoomId(roomId: string): Promise<User[]> {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.rooms', 'room')
+      .andWhere('user.isOnline = :isOnline')
+      .andWhere('room.id = :roomId')
+      .setParameters({
+        isOnline: true,
+        roomId,
+      })
       .getMany();
   }
 

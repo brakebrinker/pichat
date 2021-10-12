@@ -32,6 +32,7 @@ export class Room {
   @ManyToMany(
     (): ObjectType<User> => User,
     (user: User): Promise<Room[]> | Room[] => user.rooms,
+    { lazy: true },
   )
   users: Promise<User[]> | User[];
 
@@ -45,5 +46,24 @@ export class Room {
     this.id = id;
     this.name = name;
     this.creator = creator;
+  }
+
+  async addUserToRoom(user: User): Promise<void> {
+    const users = await this.users;
+
+    const userAlreadyInRoom = users.find(
+      (userInRoom: User): boolean => userInRoom.id === user.id,
+    );
+
+    if (userAlreadyInRoom !== undefined) {
+      return;
+    }
+
+    users.push(user);
+    this.users = users;
+  }
+
+  async getUsers(): Promise<User[]> {
+    return this.users;
   }
 }

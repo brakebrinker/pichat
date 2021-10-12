@@ -35,11 +35,12 @@ export class User {
   )
   readonly ownRooms: Promise<Room[]> | Room[];
 
-  @ManyToMany((): ObjectType<Room> => Room, {
-    nullable: true,
-  })
+  @ManyToMany(
+    (): ObjectType<Room> => Room,
+    (room: Room): Promise<User[]> | User[] => room.users,
+  )
   @JoinTable()
-  readonly rooms: Promise<Room[]> | Room[];
+  rooms: Promise<Room[]> | Room[];
 
   @OneToMany(
     (): ObjectType<Message> => Message,
@@ -52,5 +53,9 @@ export class User {
     this.id = id;
     this.nickname = nickname;
     this.isOnline = isOnline;
+  }
+
+  getRooms(): Promise<Room[]> | Room[] {
+    return this.rooms;
   }
 }

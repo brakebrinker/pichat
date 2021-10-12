@@ -27,7 +27,13 @@ export class UserController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('users/roomId/:roomId')
-  async usersByRoom(@Param('roomId') roomId: string): Promise<User[]> {
-    return this.userService.getListByRoomId(roomId);
+  async usersOnlineByRoom(
+    @Param('roomId') roomId: string,
+  ): Promise<UserModel[]> {
+    const users = await this.userService.getOnlineListByRoomId(roomId);
+
+    return Promise.all(
+      users.map(async (user: User): Promise<UserModel> => new UserModel(user)),
+    );
   }
 }

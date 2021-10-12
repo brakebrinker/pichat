@@ -12,6 +12,7 @@ import { CreateRoomDto } from './dto/create-room.dto';
 import { RoomService } from './room.service';
 import { Room } from './room.entity';
 import { RoomModel } from './room.model';
+import { AddUserToRoomDto } from './dto/add-user-to-room.dto';
 
 @Controller('room')
 export class RoomController {
@@ -31,6 +32,12 @@ export class RoomController {
     const rooms = await this.roomService.getListOfRooms();
 
     return rooms.map((room: Room): RoomModel => new RoomModel(room));
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('user')
+  async addUserToRoom(@Body() dto: AddUserToRoomDto): Promise<void> {
+    await this.roomService.addUserToRoom(dto);
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
