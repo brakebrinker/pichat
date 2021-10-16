@@ -8,11 +8,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
+import { UserRoomDto } from '../user/dto/user--room.dto';
+
 import { CreateRoomDto } from './dto/create-room.dto';
 import { RoomService } from './room.service';
 import { Room } from './room.entity';
 import { RoomModel } from './room.model';
-import { AddUserToRoomDto } from './dto/add-user-to-room.dto';
 
 @Controller('room')
 export class RoomController {
@@ -36,7 +37,7 @@ export class RoomController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('user')
-  async addUserToRoom(@Body() dto: AddUserToRoomDto): Promise<void> {
+  async addUserToRoom(@Body() dto: UserRoomDto): Promise<void> {
     await this.roomService.addUserToRoom(dto);
   }
 

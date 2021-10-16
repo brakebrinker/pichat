@@ -39,11 +39,13 @@ export class MessageService {
     return this.messageRepository
       .createQueryBuilder('message')
       .leftJoinAndSelect('message.room', 'room')
+      .leftJoinAndSelect('message.creator', 'creator')
       .where('room.id = :roomId', { roomId })
       .andWhere(
         'message.createdAt >= :fromDate and message.createdAt <= :currentDate',
         { fromDate, currentDate },
       )
+      .orderBy('message.createdAt')
       .getMany();
   }
 }

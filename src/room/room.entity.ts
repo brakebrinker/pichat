@@ -40,7 +40,7 @@ export class Room {
     (): ObjectType<Message> => Message,
     (message: Message): Promise<Room> | Room => message.room,
   )
-  readonly messages: Promise<Message[]> | Message[];
+  messages: Promise<Message[]> | Message[];
 
   constructor(id: string, name: string, creator: User) {
     this.id = id;
@@ -61,6 +61,14 @@ export class Room {
 
     users.push(user);
     this.users = users;
+  }
+
+  async removeUserFromRoom(user: User): Promise<void> {
+    const users = await this.users;
+
+    this.users = await users.filter((userInRoom: User): boolean => {
+      return userInRoom.id !== user.id;
+    });
   }
 
   async getUsers(): Promise<User[]> {

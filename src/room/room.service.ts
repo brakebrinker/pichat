@@ -3,11 +3,12 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { UserService } from '../user/user.service';
+import { UserRoomDto } from '../user/dto/user--room.dto';
+import { User } from '../user/user.entity';
 
 import { CreateRoomDto } from './dto/create-room.dto';
 import { Room } from './room.entity';
 import { RoomDto } from './dto/room.dto';
-import { AddUserToRoomDto } from './dto/add-user-to-room.dto';
 
 @Injectable()
 export class RoomService {
@@ -36,13 +37,26 @@ export class RoomService {
     return this.roomRepository.save(new RoomDto(dto.name, creator));
   }
 
-  async addUserToRoom(dto: AddUserToRoomDto): Promise<void> {
+  async addUserToRoom(dto: UserRoomDto): Promise<User> {
     const user = await this.userService.getById(dto.userId);
     const room = await this.getById(dto.roomId);
 
     await room.addUserToRoom(user);
 
     await this.roomRepository.save(room);
+
+    return user;
+  }
+
+  async removeUserFromRoom(dto: UserRoomDto): Promise<User> {
+    const user = await this.userService.getById(dto.userId);
+    const room = await this.getById(dto.roomId);
+
+    await room.removeUserFromRoom(user);
+
+    await this.roomRepository.save(room);
+
+    return user;
   }
 
   async findByName(name: string): Promise<Room | undefined> {

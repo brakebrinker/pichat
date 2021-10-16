@@ -24,7 +24,7 @@ export class User {
   readonly nickname: string;
 
   @Column('boolean')
-  readonly isOnline: boolean;
+  isOnline: boolean;
 
   @OneToMany(
     (): ObjectType<Room> => Room,

@@ -9,11 +9,12 @@ import { UserModule } from '../user/user.module';
 import { MessageController } from './message.controller';
 import { MessageService } from './message.service';
 import { Message } from './message.entity';
+import { MessageGateway } from './message.gateway';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Message]), RoomModule, UserModule],
   exports: [TypeOrmModule],
   controllers: [MessageController],
-  providers: [MessageService, RoomService, UserService],
+  providers: [MessageService, RoomService, UserService, MessageGateway],
 })
 export class MessageModule {}

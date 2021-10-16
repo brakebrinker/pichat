@@ -2,6 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
+import { LogoutUserDto } from '../auth/dto/logout-user.dto';
+
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -23,6 +25,14 @@ export class UserService {
     }
 
     return this.userRepository.save(dto);
+  }
+
+  async updateOnlineStatus(dto: LogoutUserDto): Promise<User> {
+    const user = await this.getById(dto.id);
+
+    user.isOnline = dto.isOnline;
+
+    return this.userRepository.save(user);
   }
 
   async findByNickname(nickname: string): Promise<User | undefined> {

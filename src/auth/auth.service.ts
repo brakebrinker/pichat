@@ -4,6 +4,8 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { User } from '../user/user.entity';
 
+import { LogoutUserDto } from './dto/logout-user.dto';
+
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService) {}
@@ -24,6 +26,17 @@ export class AuthService {
       return this.userService.create(userDto);
     }
 
+    user.isOnline = userDto.isOnline;
+
+    await this.userService.updateOnlineStatus(<LogoutUserDto>{
+      id: user.id,
+      isOnline: user.isOnline,
+    });
+
     return user;
+  }
+
+  async logout(logoutUserDto: LogoutUserDto): Promise<User> {
+    return this.userService.updateOnlineStatus(logoutUserDto);
   }
 }
