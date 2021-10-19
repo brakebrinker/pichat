@@ -26,6 +26,6 @@ export class MessageGateway {
 
     this.server.emit('sendMessageToClient', message);
 
-    return new MessageModel(message);
+    return message;
   }
 }

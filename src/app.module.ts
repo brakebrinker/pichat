@@ -11,6 +11,7 @@ import { ENTITIES } from './entities';
 import AppConfig from './config/app.config';
 import { RoomModule } from './room/room.module';
 import { MessageModule } from './message/message.module';
+import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { MessageModule } from './message/message.module';
     AuthModule,
     RoomModule,
     MessageModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -40,4 +40,19 @@ export class MessageController {
       (message: Message): MessageModel => new MessageModel(message),
     );
   }
+
+  @Get('messages/roomId/:roomId/search/:search')
+  async getPosts(
+    @Param('roomId') roomId: string,
+    @Param('search') search: string,
+  ): Promise<Message[]> {
+    const messages = await this.messageService.searchForMessages(
+      search,
+      roomId,
+    );
+
+    return messages.map(
+      (message: Message): MessageModel => new MessageModel(message),
+    );
+  }
 }

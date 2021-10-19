@@ -67,3 +67,13 @@ $ yarn run run-migrations
 # Revert migrations
 $ yarn run revert-migrations
 ```
+
+
+## Elasticsearch
+You have to change host IP in ./config/hosts file for your own es01 docker container.
+### Common issues
+You might run into an issue when doing the above: es01 exited with code 78. There is a high chance that increasing the  vm.max_map_count will help
+```bash
+# Just run this command
+$ sudo sysctl -w vm.max_map_count=262144
+```

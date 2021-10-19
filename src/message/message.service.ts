@@ -8,6 +8,8 @@ import { UserService } from '../user/user.service';
 import { Message } from './message.entity';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { MessageDto } from './dto/message.dto';
+import { MessageSearchService } from './message-search/message-search.service';
+import { MessageSearchBodyInterface } from './types/message.search-body.interface';
 
 @Injectable()
 export class MessageService {
@@ -16,6 +18,7 @@ export class MessageService {
     private readonly messageRepository: Repository<Message>,
     private readonly roomService: RoomService,
     private readonly userService: UserService,
+    private readonly messageSearchService: MessageSearchService,
   ) {}
 
   async create(dto: CreateMessageDto): Promise<Message> {
@@ -24,7 +27,37 @@ export class MessageService {
 
     const message = new MessageDto(dto.text, room, creator);
 
-    return this.messageRepository.save(message);
+    const messageEntity = await this.messageRepository.save(message);
+
+    await this.messageSearchService.indexMessage(messageEntity);
+
+    return messageEntity;
+  }
+
+  async searchForMessages(
+    text: string,
+    roomId: string,
+  ): Promise<Message[] | []> {
+    const results = await this.messageSearchService.search(text);
+
+    const ids = results.map(
+      (result: MessageSearchBodyInterface): string => result.id,
+    );
+
+    if (!ids.length) {
+      return [];
+    }
+
+    return this.messageRepository
+      .createQueryBuilder('message')
+      .leftJoinAndSelect('message.room', 'room')
+      .leftJoinAndSelect('message.creator', 'creator')
+      .whereInIds(ids)
+      .andWhere('room.id=:roomId')
+      .setParameters({
+        roomId,
+      })
+      .getMany();
   }
 
   async getListByRoomIdForDays(
